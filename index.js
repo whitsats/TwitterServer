@@ -2,8 +2,8 @@ const { ApolloServer } = require('apollo-server')
 const mongoose = require('mongoose')
 const typeDefs = require('./graphql/typeDefs')
 const resolvers = require('./graphql/resolvers')
-const uri =
-  'mongodb+srv://whitsats:whitsats003929@cluster0.sm7fxnn.mongodb.net/backend?retryWrites=true&w=majority'
+const config = require('./config')
+const uri = config.MONGODB
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true
