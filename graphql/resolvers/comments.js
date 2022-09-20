@@ -2,7 +2,7 @@ const Post = require('../../models/Post')
 const checkAuth = require('../../util/check-auth')
 const { UserInputError, AuthenticationError } = require('apollo-server')
 module.exports = {
-  Mutation: {
+  Mutations: {
     createComment: async (_, { postId, body }, context) => {
       const { username } = checkAuth(context)
       if (body.trim() === '') {
