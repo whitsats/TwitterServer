@@ -6,7 +6,9 @@ const typeDefs = gql`
     createAt: String!
     username: String!
     comments: [Comment]!
+    commentCount: Int!
     likes: [Like]!
+    likeCount: Int!
   }
   type Comment {
     id: ID!
@@ -24,6 +26,7 @@ const typeDefs = gql`
     getPost(postId: ID!): Post
   }
   type User {
+    id: ID!
     username: String!
     password: String!
     email: String!

@@ -58,7 +58,7 @@ module.exports = {
         confirmPassword
       )
       if (!valid) {
-        throw new UserInputError('Errors', errors)
+        throw new UserInputError('Errors', { errors })
       }
       const user = await User.findOne({ username })
       if (user) {
@@ -76,6 +76,7 @@ module.exports = {
         creatAt: new Date().toISOString()
       })
       const res = await newUser.save()
+      console.log(res)
       const token = generateToken(res)
       return {
         ...res._doc,
