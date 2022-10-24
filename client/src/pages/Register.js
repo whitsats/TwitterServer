@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import React from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import { useMutation, gql } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from '../utils/hook'
+import { AuthContext } from '../context/auth'
 function Register() {
   // 使用跳转函数
+  const context = useContext(AuthContext)
   const navigate = useNavigate()
   // 收集表单信息
   const { onChange, onSubmit, values } = useForm(registerUser, {
@@ -19,8 +21,10 @@ function Register() {
   // 突变查询
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     variables: values,
-    update(_, result) {
+    update(_, { data: { register: userData } }) {
+      context.login(userData)
       // 更新后刷新页面
+      // context.login(userData)
       navigate('/')
     },
     onError(err) {

@@ -1,14 +1,33 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
+import { AuthContext } from '../context/auth'
 
 function MenuBar() {
-  const pathname = window.location.pathname
-  const path = pathname === '/' ? 'home' : pathname.substring(1)
+  const { user, logout } = useContext(AuthContext)
+  const { pathname } = useLocation()
+  var path = pathname === '/' ? 'home' : pathname.substring(1)
   const [activeItem, setActiveItem] = useState(path)
-  const handleItemClick = (e, { name }) => setActiveItem(name)
+  useEffect(() => {
+    setActiveItem(path)
+  }, [path])
+  const navigator = useNavigate()
+  const handleLogout = () => {
+    navigator('/')
+    logout()
+  }
 
-  return (
+  const handleItemClick = (e, { name }) => setActiveItem(name)
+  const menuBar = user ? (
+    <div>
+      <Menu pointing secondary color="teal" size="massive">
+        <Menu.Item name={user.username} active />
+        <Menu.Menu position="right">
+          <Menu.Item name="Logout" onClick={handleLogout} />
+        </Menu.Menu>
+      </Menu>
+    </div>
+  ) : (
     <div>
       <Menu pointing secondary color="teal" size="massive">
         <Menu.Item
@@ -37,5 +56,6 @@ function MenuBar() {
       </Menu>
     </div>
   )
+  return menuBar
 }
 export default MenuBar
